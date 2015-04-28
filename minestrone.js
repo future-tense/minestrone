@@ -1,5 +1,17 @@
-var minestrone = (function (Q) {
+var minestrone = (function () {
     'use strict';
+
+    function defer() {
+        var resolve, reject;
+        return {
+            promise: new Promise(function (resolve_, reject_) {
+                resolve = resolve_;
+                reject = reject_;
+            }),
+            resolve: resolve,
+            reject: reject
+        };
+    }
 
     function Remote(uri, options) {
 
@@ -86,7 +98,7 @@ var minestrone = (function (Q) {
                 queue.push(msg);
             }
 
-            var deferred = Q.defer();
+            var deferred = defer();
             deferreds[last_id++] = deferred;
             return deferred.promise;
         };
@@ -179,4 +191,4 @@ var minestrone = (function (Q) {
     return {
         Remote: Remote
     };
-})(Q);
+})();
